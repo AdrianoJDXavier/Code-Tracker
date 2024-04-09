@@ -37,8 +37,43 @@ const encoddingDecorationType = window.createTextEditorDecorationType({
 
 const terms = ["echo","rp_erro","rp_pre","rp_echo","rp_mail","email","mysql_affected_rows","mysql_client_encoding","mysql_close","mysql_connect","mysql_create_db","mysql_data_seek","mysql_db_name","mysql_db_query","mysql_drop_db","mysql_errno","mysql_error","mysql_escape_string","mysql_fetch_array","mysql_fetch_assoc","mysql_fetch_field","mysql_fetch_lengths","mysql_fetch_object","mysql_fetch_row","mysql_field_flags","mysql_field_len","mysql_field_name","mysql_field_seek","mysql_field_table","mysql_field_type","mysql_free_result","mysql_get_client_info","mysql_get_host_info","mysql_get_proto_info","mysql_get_server_info","mysql_info","mysql_insert_id","mysql_list_dbs","mysql_list_fields","mysql_list_processes","mysql_list_tables","mysql_num_fields","mysql_num_rows","mysql_pconnect","mysql_ping","mysql_query","mysql_real_escape_string","mysql_result","mysql_select_db","mysql_set_charset","mysql_stat","mysql_tablename","mysql_thread_id","mysql_unbuffered_query","error","exit","print_r","var_dump","ini_set","console\.assert","console\.count","console\.debug","console\.dir","console\.error","console\.exception","console\.groupCollapsed","console\.groupEnd","console\.group","console\.info","console\.log","console\.profileEnd","console\.profile","console\.timeEnd","console\.time","console\.table","console\.trace","console\.warn","rp_last_id","session\.inc\.php","ckeditor","neymar","bresq","quente","include_once","require_once","chutancia","balde","formzera","maneiro","ney","gridzada","link","login","senha", 'docDelete', 'docPath', 'rp_pdo_select_table', 'rp_pdo_update_table', 'rp_pdo_insert_table', 'rp_pdo_delete_table', 'delete', 'DELETE'];
 
-const termsEncodingErrors = ["�","ï¿½","ÿ","�","�","�","Ã","Ä","Â","Ã©","Ã¨","Ã¯","Ã¶","Ã¼","Ã±","Ã§","Ã£","Ã³","Ã¡","Ã§Ã£","Ã©",""];
-  
+const termsEncodingErrors = ["�","ï¿½","ÿ","�","�","�","Ä","Â","Ã©","Ã¨","Ã¯","Ã¶","Ã¼","Ã±","Ã§","Ã£","Ã³","Ã¡","Ã§Ã£","Ã©",""];
+
+const termsDepreciated = {
+    "strftime('%D');": "IntlDateFormatter('en_US', IntlDateFormatter::LONG, IntlDateFormatter::NONE).format(time());",
+    "gmstrftime('%D');": "IntlDateFormatter('en_US', IntlDateFormatter::LONG, IntlDateFormatter::NONE).format(time());",
+    "utf8_encode": "mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1');",
+    "utf8_decode": "mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');",
+    "enchant_broker_set_dict_path(, enchant_broker_get_dict_path()": "unset the object instead",
+    "enchant_dict_add_to_personal(": "enchant_dict_add()",
+    "enchant_dict_is_in_session(": "enchant_dict_is_added()",
+    "libxml_disable_entity_loader(;": "libxml_set_external_entity_loader()",
+    "pg_errormessage(": "pg_last_error()",
+    "pg_numrows(": "pg_num_rows()",
+    "pg_numfields(": "pg_num_fields()",
+    "pg_cmdtuples(": "pg_affected_rows()",
+    "pg_fieldname(": "pg_field_name()",
+    "pg_fieldsize(": "pg_field_size()",
+    "pg_fieldtype(": "pg_field_type()",
+    "pg_fieldnum(": "pg_field_num()",
+    "pg_result(": "pg_fetch_result()",
+    "pg_fieldprtlen(": "pg_field_prtlen()",
+    "pg_fieldisnull(": "pg_field_is_null()",
+    "pg_freeresult(": "pg_free_result()",
+    "pg_getlastoid(": "pg_last_oid()",
+    "pg_locreate(": "pg_lo_create()",
+    "pg_lounlink(": "pg_lo_unlink()",
+    "pg_loopen(": "pg_lo_open()",
+    "pg_loclose(": "pg_lo_close()",
+    "pg_loread(": "pg_lo_read()",
+    "pg_lowrite(": "pg_lo_write()",
+    "pg_loreadall(": "pg_lo_read_all()",
+    "pg_loimport(": "pg_lo_import()",
+    "pg_loexport(": "pg_lo_export()",
+    "pg_setclientencoding(": "pg_set_client_encoding()",
+    "pg_clientencoding(": "pg_client_encoding()"
+};
+
 
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
