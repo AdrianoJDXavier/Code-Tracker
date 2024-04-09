@@ -1,0 +1,61 @@
+{
+  "name": "code-tracker",
+  "displayName": "Code Tracker RP",
+  "description": "A extensão \"Code Tracker\" é uma ferramenta indispensável para desenvolvedores que buscam aprimorar a qualidade e a eficiência de seu código.Essa extensão tem a capacidade de analisar automaticamente o código-fonte em busca de termos desnecessários, obsoletos ou que possam indicar práticas de codificação que requerem atenção especial.",
+  "version": "1.0.6",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "code-tracker.code-tracker",
+        "title": "Code Tracker RP"
+      },
+      {
+        "command": "code-tracker.disable",
+        "title": "Disable Code Tracker"
+      }    
+    ],
+		"keybindings": [
+			{
+				"command": "code-tracker.code-tracker",
+				"key": "ctrl+alt+i",
+				"mac": "cmd+alt+i",
+				"when": "true"
+			},
+      {
+        "key": "ctrl+alt+p",
+        "mac": "ctrl+alt+p",
+        "command": "code-tracker.disable",
+        "when": "true"
+      }    
+		]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.86.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9"
+  },
+	"publisher": "AdrianoXavier",
+  "icon": "img/logo.jpg"
+}
