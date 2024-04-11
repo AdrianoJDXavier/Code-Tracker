@@ -1,6 +1,11 @@
 # Changelog
 
 Todas as mudanças significativas neste projeto serão documentadas neste arquivo.
+## [1.0.7] - 2024-04-10
+
+### Adicionado
+- Identificação de funções depreciadas e modal para informar possíveis sugestões de melhorias.
+
 ## [1.0.6] - 2024-04-07
 
 ### Corrigido

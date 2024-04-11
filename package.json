@@ -2,7 +2,7 @@
   "name": "code-tracker",
   "displayName": "Code Tracker RP",
   "description": "A extensão \"Code Tracker\" é uma ferramenta indispensável para desenvolvedores que buscam aprimorar a qualidade e a eficiência de seu código.Essa extensão tem a capacidade de analisar automaticamente o código-fonte em busca de termos desnecessários, obsoletos ou que possam indicar práticas de codificação que requerem atenção especial.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "engines": {
     "vscode": "^1.86.0"
   },

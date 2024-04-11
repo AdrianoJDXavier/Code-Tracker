@@ -1,43 +1,51 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import {window, ProgressLocation, TextEditor, DecorationOptions, Range, Position, ExtensionContext, commands, workspace} from 'vscode';
+import { window, ProgressLocation, TextEditor, DecorationOptions, Range, Position, ExtensionContext, commands, workspace } from 'vscode';
 import * as vscode from 'vscode';
 
 const decorationType = window.createTextEditorDecorationType({
-	backgroundColor: 'rgba(255, 0, 0, 0.7)',
-	border: '1px solid #FF0000',
-	borderRadius: '4px',
-	fontStyle: 'italic',
-	fontWeight: 'bold',
-	textDecoration: 'underline'
+    backgroundColor: 'rgba(255, 0, 0, 0.7)',
+    border: '1px solid #FF0000',
+    borderRadius: '4px',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    textDecoration: 'underline'
 });
 
 const generalCommentDecorationType = window.createTextEditorDecorationType({
-    backgroundColor: 'rgba(0, 255, 0, 0.2)', 
+    backgroundColor: 'rgba(0, 255, 0, 0.2)',
     border: '1px solid #00FF00',
     fontStyle: 'italic'
 });
 
 const longCommentDecorationType = window.createTextEditorDecorationType({
-    backgroundColor: 'rgba(0, 255, 0, 0.2)', 
+    backgroundColor: 'rgba(0, 255, 0, 0.2)',
     border: '1px solid #00FF00',
     fontStyle: 'italic'
 });
 
 const encoddingDecorationType = window.createTextEditorDecorationType({
     backgroundColor: 'rgba(255, 255, 0, 0.7)',
-	border: '1px solid #FFFF00',
-	borderRadius: '4px',
-	fontStyle: 'italic',
-	fontWeight: 'bold',
-    color : '#000000',
-	textDecoration: 'underline'
+    border: '1px solid #FFFF00',
+    borderRadius: '4px',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: '#000000',
+    textDecoration: 'underline'
+});
+
+const depreciatedDecorationType = window.createTextEditorDecorationType({
+    backgroundColor: 'rgba(138,43,226, 0.7)',
+    border: '1px solid #4B0082',
+    borderRadius: '4px',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    textDecoration: 'underline'
 });
 
 
-const terms = ["echo","rp_erro","rp_pre","rp_echo","rp_mail","email","mysql_affected_rows","mysql_client_encoding","mysql_close","mysql_connect","mysql_create_db","mysql_data_seek","mysql_db_name","mysql_db_query","mysql_drop_db","mysql_errno","mysql_error","mysql_escape_string","mysql_fetch_array","mysql_fetch_assoc","mysql_fetch_field","mysql_fetch_lengths","mysql_fetch_object","mysql_fetch_row","mysql_field_flags","mysql_field_len","mysql_field_name","mysql_field_seek","mysql_field_table","mysql_field_type","mysql_free_result","mysql_get_client_info","mysql_get_host_info","mysql_get_proto_info","mysql_get_server_info","mysql_info","mysql_insert_id","mysql_list_dbs","mysql_list_fields","mysql_list_processes","mysql_list_tables","mysql_num_fields","mysql_num_rows","mysql_pconnect","mysql_ping","mysql_query","mysql_real_escape_string","mysql_result","mysql_select_db","mysql_set_charset","mysql_stat","mysql_tablename","mysql_thread_id","mysql_unbuffered_query","error","exit","print_r","var_dump","ini_set","console\.assert","console\.count","console\.debug","console\.dir","console\.error","console\.exception","console\.groupCollapsed","console\.groupEnd","console\.group","console\.info","console\.log","console\.profileEnd","console\.profile","console\.timeEnd","console\.time","console\.table","console\.trace","console\.warn","rp_last_id","session\.inc\.php","ckeditor","neymar","bresq","quente","include_once","require_once","chutancia","balde","formzera","maneiro","ney","gridzada","link","login","senha", 'docDelete', 'docPath', 'rp_pdo_select_table', 'rp_pdo_update_table', 'rp_pdo_insert_table', 'rp_pdo_delete_table', 'delete', 'DELETE'];
+const terms = ["echo", "rp_erro", "rp_pre", "rp_echo", "rp_mail", "email", "mysql_affected_rows", "mysql_client_encoding", "mysql_close", "mysql_connect", "mysql_create_db", "mysql_data_seek", "mysql_db_name", "mysql_db_query", "mysql_drop_db", "mysql_errno", "mysql_error", "mysql_escape_string", "mysql_fetch_array", "mysql_fetch_assoc", "mysql_fetch_field", "mysql_fetch_lengths", "mysql_fetch_object", "mysql_fetch_row", "mysql_field_flags", "mysql_field_len", "mysql_field_name", "mysql_field_seek", "mysql_field_table", "mysql_field_type", "mysql_free_result", "mysql_get_client_info", "mysql_get_host_info", "mysql_get_proto_info", "mysql_get_server_info", "mysql_info", "mysql_insert_id", "mysql_list_dbs", "mysql_list_fields", "mysql_list_processes", "mysql_list_tables", "mysql_num_fields", "mysql_num_rows", "mysql_pconnect", "mysql_ping", "mysql_query", "mysql_real_escape_string", "mysql_result", "mysql_select_db", "mysql_set_charset", "mysql_stat", "mysql_tablename", "mysql_thread_id", "mysql_unbuffered_query", "error", "exit", "print_r", "var_dump", "ini_set", "console\.assert", "console\.count", "console\.debug", "console\.dir", "console\.error", "console\.exception", "console\.groupCollapsed", "console\.groupEnd", "console\.group", "console\.info", "console\.log", "console\.profileEnd", "console\.profile", "console\.timeEnd", "console\.time", "console\.table", "console\.trace", "console\.warn", "rp_last_id", "session\.inc\.php", "ckeditor", "neymar", "bresq", "quente", "include_once", "require_once", "chutancia", "balde", "formzera", "maneiro", "ney", "gridzada", "link", "login", "senha", 'docDelete', 'docPath', 'rp_pdo_select_table', 'rp_pdo_update_table', 'rp_pdo_insert_table', 'rp_pdo_delete_table', 'delete', 'DELETE'];
 
-const termsEncodingErrors = ["�","ï¿½","ÿ","�","�","�","Ä","Â","Ã©","Ã¨","Ã¯","Ã¶","Ã¼","Ã±","Ã§","Ã£","Ã³","Ã¡","Ã§Ã£","Ã©",""];
+const termsEncodingErrors = ["�", "ï¿½", "ÿ", "�", "�", "�", "Ä", "Â", "Ã©", "Ã¨", "Ã¯", "Ã¶", "Ã¼", "Ã±", "Ã§", "Ã£", "Ã³", "Ã¡", "Ã§Ã£", "Ã©", ""];
 
 const termsDepreciated = {
     "strftime('%D');": "IntlDateFormatter('en_US', IntlDateFormatter::LONG, IntlDateFormatter::NONE).format(time());",
@@ -84,6 +92,8 @@ function inspect(editor: TextEditor, sourceCode: string) {
     let longCommentDecorationsArray: DecorationOptions[] = [];
     let generalCommentDecorationsArray: DecorationOptions[] = [];
     let termErrorDecorationsArray: DecorationOptions[] = [];
+    let termDepreciatedDecorationsArray: DecorationOptions[] = [];
+    let deprecatedFunctionsFound: { deprecated: string; count: number; suggestion: string; }[] = [];
     let count = 0;
 
     sourceCodeArr.forEach((line, index) => {
@@ -103,12 +113,33 @@ function inspect(editor: TextEditor, sourceCode: string) {
         termsEncodingErrors.forEach((termError) => {
             let regTermError = new RegExp(termError, 'gi');
             let matchesError = [...lowerCaseLine.matchAll(regTermError)];
-            
+
             matchesError.forEach(matchError => {
                 if (matchError.index !== undefined) {
                     let range = new Range(new Position(index, matchError.index), new Position(index, matchError.index + matchError[0].length));
                     termErrorDecorationsArray.push({ range });
                     count++;
+                }
+            });
+        });
+
+        Object.entries(termsDepreciated).forEach(([termDepreciated, replacement]) => {
+            const escapedTermDepreciated = termDepreciated.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let regTermDepreciated = new RegExp(escapedTermDepreciated, 'gi');
+            let matchesDepreciated = [...lowerCaseLine.matchAll(regTermDepreciated)];
+
+            matchesDepreciated.forEach(matchDepreciated => {
+                if (matchDepreciated.index !== undefined) {
+                    let range = new Range(new Position(index, matchDepreciated.index), new Position(index, matchDepreciated.index + matchDepreciated[0].length));
+                    termDepreciatedDecorationsArray.push({ range });
+                    count++;
+
+                    let foundItem = deprecatedFunctionsFound.find((item: { deprecated: string; }) => item.deprecated === termDepreciated);
+                    if (foundItem) {
+                        foundItem.count += 1;
+                    } else {
+                        deprecatedFunctionsFound.push({ deprecated: termDepreciated, count: 1, suggestion: replacement });
+                    }
                 }
             });
         });
@@ -123,13 +154,25 @@ function inspect(editor: TextEditor, sourceCode: string) {
             count++;
         }
     });
-
+    if (deprecatedFunctionsFound.length > 0) {
+        showDeprecatedFunctionsMessage(deprecatedFunctionsFound);
+    }
     editor.setDecorations(decorationType, termDecorationsArray);
     editor.setDecorations(longCommentDecorationType, longCommentDecorationsArray);
     editor.setDecorations(generalCommentDecorationType, generalCommentDecorationsArray);
     editor.setDecorations(encoddingDecorationType, termErrorDecorationsArray);
+    editor.setDecorations(depreciatedDecorationType, termDepreciatedDecorationsArray);
 
     return count;
+}
+
+function showDeprecatedFunctionsMessage(deprecatedFunctionsFound: { deprecated: any; count: any; suggestion: any; }[]) {
+    let message = "Funções depreciadas encontradas:\n";
+    deprecatedFunctionsFound.forEach((func: { deprecated: any; count: any; suggestion: any; }) => {
+        message += `\n\n${func.deprecated} (${func.count} ocorrências) - Considere substituir por: \n${func.suggestion}`;
+    });
+
+    window.showInformationMessage(message, { modal: true });
 }
 
 function getCommentLines(sourceCodeArr: Array<string>) {
@@ -190,28 +233,28 @@ function getCommentLines(sourceCodeArr: Array<string>) {
 
 
 function runExtension(type: number, event: any) {
-	let openEditor = window.visibleTextEditors.filter(editor => editor.document.uri)[0];
-	let sourceCode = openEditor.document.getText();
-	if(type === 1){
-         openEditor = window.visibleTextEditors.filter(editor => editor.document.uri === event.document.uri)[0];
+    let openEditor = window.visibleTextEditors.filter(editor => editor.document.uri)[0];
+    let sourceCode = openEditor.document.getText();
+    if (type === 1) {
+        openEditor = window.visibleTextEditors.filter(editor => editor.document.uri === event.document.uri)[0];
     }
-	window.withProgress({
-		location: ProgressLocation.Window,
-		title: "Running Inspection!",
-		cancellable: false
-	}, _ => {
-		const p = new Promise(resolve => {
-			try {
-				const inspection = inspect(openEditor, sourceCode);
-				window.showInformationMessage(inspection > 0 ? "Ei! eu encontrei " + inspection + " itens que você deve dar uma olhada!" : "Tudo limpo por aqui!");
-			} catch(e) {
-				window.showErrorMessage("Erro de leitura!");
-				console.error(e);
-			}
-			setTimeout(_=>resolve(null), 3000);
-		})
-		return p;
-	});
+    window.withProgress({
+        location: ProgressLocation.Window,
+        title: "Running Inspection!",
+        cancellable: false
+    }, _ => {
+        const p = new Promise(resolve => {
+            try {
+                const inspection = inspect(openEditor, sourceCode);
+                window.showInformationMessage(inspection > 0 ? "Ei! eu encontrei " + inspection + " itens que você deve dar uma olhada!" : "Tudo limpo por aqui!");
+            } catch (e) {
+                window.showErrorMessage("Erro de leitura!");
+                console.error(e);
+            }
+            setTimeout(_ => resolve(null), 3000);
+        });
+        return p;
+    });
 }
 
 let activeEditor = vscode.window.activeTextEditor;
@@ -246,6 +289,7 @@ export function activate(context: vscode.ExtensionContext) {
             activeEditor.setDecorations(longCommentDecorationType, []);
             activeEditor.setDecorations(generalCommentDecorationType, []);
             activeEditor.setDecorations(encoddingDecorationType, []);
+            activeEditor.setDecorations(depreciatedDecorationType, []);
         }
     });
 
